@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>We Are Getting Married</title>
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💍</text></svg>">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Great+Vibes&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        /* --- 1. ROYAL THEME VARIABLES --- */
+        :root {
+            --gold: #D4AF37;     /* Royal Gold */
+            --gold-shine: #FFFACD;
+            --white: #fff0f5;    
+            --glass: rgba(0, 0, 0, 0.4);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            color: var(--white);
+            
+            /* New Background: A rich, dark vertical texture suitable for mobile.
+               To use your own file, change the URL below to 'image2.jpg' 
+            */
+            background: linear-gradient(rgba(20, 0, 0, 0.6), rgba(20, 0, 0, 0.8)), url('image2.jpg');
+            
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* --- 2. REAL ROSE PETALS (PNG) --- */
+        #petal-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; /* Allows scrolling through petals */
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .petal {
+            position: absolute;
+            /* URL to a real Rose Petal PNG (Transparent) */
+            background-image: url('https://pngimg.com/uploads/rose/rose_PNG686.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.9;
+            /* Note: Width/Height set in JS for variety */
+            animation: falling linear infinite;
+        }
+
+        @keyframes falling {
+            0% { transform: translate(0, -10vh) rotate(0deg) rotateX(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translate(20px, 110vh) rotate(360deg) rotateX(180deg); opacity: 0; }
+        }
+
+        /* --- 3. MAIN LAYOUT --- */
+        .hero {
+            position: relative;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            z-index: 5;
+        }
+
+        .content {
+            text-align: center;
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 50px; 
+        }
+
+        .pre-title {
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            letter-spacing: 5px;
+            color: var(--gold);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            margin-top: 10vh;
+        }
+
+        .names {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(3.5rem, 12vw, 5.5rem);
+            color: var(--gold-shine);
+            line-height: 1.1;
+            margin-bottom: 25px;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.6);
+        }
+
+        .date-location {
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            color: var(--white);
+            border-top: 1px solid var(--gold);
+            border-bottom: 1px solid var(--gold);
+            padding: 12px 25px;
+            display: inline-block;
+            margin-bottom: 40px;
+            background: var(--glass);
+            backdrop-filter: blur(4px);
+        }
+
+        /* --- 4. COUNTDOWN --- */
+        .countdown {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 50px;
+        }
+
+        .time-box {
+            position: relative;
+            background: rgba(43, 5, 5, 0.6); 
+            padding: 2px; 
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        .time-box::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: conic-gradient(transparent, transparent, transparent, var(--gold));
+            animation: rotateBorder 4s linear infinite;
+        }
+
+        .time-box::after {
+            content: '';
+            position: absolute;
+            inset: 2px;
+            background: #2b0505; 
+            border-radius: 6px;
+            z-index: 0;
+        }
+
+        .time-content {
+            position: relative;
+            z-index: 1; 
+            padding: 10px 5px;
+        }
+
+        .time-content h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: var(--gold);
+            margin: 0;
+        }
+
+        .time-content p {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(255,255,255,0.7);
+            margin-top: 2px;
+            margin-bottom: 0;
+        }
+
+        @keyframes rotateBorder {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* --- 5. MUSIC CONTROL --- */
+        .music-control {
+            position: fixed;
+            top: 20px; right: 20px;
+            z-index: 100;
+            background: rgba(0,0,0,0.6);
+            border: 1px solid var(--gold);
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .music-control svg {
+            fill: var(--gold);
+            width: 18px; height: 18px;
+        }
+
+        .music-control.playing svg {
+            animation: spin 3s linear infinite;
+        }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* --- 6. CELEBRATE BUTTON --- */
+        .celebrate-btn {
+            background: linear-gradient(135deg, #D4AF37 0%, #FDC830 100%);
+            color: #2b0505;
+            border: none;
+            padding: 16px 45px;
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.3);
+            transition: transform 0.2s;
+            position: relative;
+            z-index: 10;
+        }
+
+        .celebrate-btn:active { transform: scale(0.96); }
+
+        /* --- 7. PHOTO & CALENDAR SECTION --- */
+        .photo-section {
+            display: flex; 
+            flex-direction: column;
+            align-items: center;
+            margin-top: 80px; 
+            width: 100%;
+            padding-bottom: 40px;
+        }
+
+        .frame {
+            background: #fff;
+            padding: 10px;
+            padding-bottom: 35px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+            transform: rotate(-2deg);
+            max-width: 90%;
+            width: 350px;
+            margin-bottom: 25px;
+        }
+
+        .frame img {
+            width: 100%;
+            display: block;
+            border: 1px solid #eee;
+        }
+
+        .cal-btn {
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 12px 20px;
+            font-size: 0.85rem;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.3s;
+        }
+
+        .cal-btn svg {
+            fill: var(--gold);
+            width: 16px; height: 16px;
+            transition: 0.3s;
+        }
+
+        .cal-btn:hover {
+            background: var(--gold);
+            color: #2b0505;
+        }
+        .cal-btn:hover svg { fill: #2b0505; }
+
+        /* --- 8. HIDDEN DESIGNER CREDIT --- */
+        .hidden-credit {
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+
+    <audio id="wedding-music" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="music-control" id="musicToggle" title="Toggle Music">
+        <svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        <svg id="pauseIcon" style="display:none;" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+    </div>
+
+    <div id="petal-container"></div>
+
+    <div class="hero">
+        <div class="content">
+            <p class="pre-title">We Are Getting Married</p>
+            
+            <h1 class="names">Nirupam & Pinki</h1>
+            
+            <div class="date-location">
+                February 14, 2026 • Fulbari, Katigorah
+            </div>
+
+            <div class="countdown" id="countdown">
+                <div class="time-box">
+                    <div class="time-content">
+                        <h2 id="days">00</h2>
+                        <p>Days</p>
+                    </div>
+                </div>
+                <div class="time-box">
+                    <div class="time-content">
+                        <h2 id="hours">00</h2>
+                        <p>Hours</p>
+                    </div>
+                </div>
+                <div class="time-box">
+                    <div class="time-content">
+                        <h2 id="minutes">00</h2>
+                        <p>Mins</p>
+                    </div>
+                </div>
+                <div class="time-box">
+                    <div class="time-content">
+                        <h2 id="seconds">00</h2>
+                        <p>Secs</p>
+                    </div>
+                </div>
+            </div>
+
+            <button id="celebrateBtn" class="celebrate-btn">
+                Tap to Celebrate
+            </button>
+
+            <div class="photo-section" id="photoArea">
+                <div class="frame">
+                    <img src="photo.jpg" alt="Couple">
+                    <div style="text-align:center; font-family:'Great Vibes'; font-size:1.5rem; margin-top:10px; color:#333;">Save the Date</div>
+                </div>
+
+                <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Wedding+of+Nirupam+%26+Pinki&dates=20260214T193000/20260214T230000&details=Join+us+to+celebrate+our+special+day!&location=Fulbari,+Katigorah,+Assam" 
+                   target="_blank" 
+                   class="cal-btn">
+                   <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zM9 14H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2zm-8 4H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2z"/></svg>
+                   Add to Calendar
+                </a>
+            </div>
+
+            <div class="hidden-credit">
+                <a href="mailto:abhikdutta639@gmail.com?subject=Wedding Website Inquiry">Design by Abhik</a>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // --- 1. REAL ROSE PETALS (PNG) ---
+        const petalContainer = document.getElementById('petal-container');
+        function createPetal() {
+            const petal = document.createElement('div');
+            petal.classList.add('petal');
+            
+            // Random horizontal start
+            petal.style.left = Math.random() * 100 + 'vw';
+            
+            // Random size (between 20px and 35px for real look)
+            const size = Math.random() * 15 + 20;
+            petal.style.width = size + 'px';
+            petal.style.height = size + 'px';
+            
+            // Random fall speed
+            petal.style.animationDuration = Math.random() * 5 + 8 + 's';
+            
+            petalContainer.appendChild(petal);
+            setTimeout(() => { petal.remove(); }, 13000);
+        }
+        setInterval(createPetal, 1000);
+
+        // --- 2. MUSIC: 40% Sound + Aggressive Autoplay ---
+        const audio = document.getElementById('wedding-music');
+        const toggleBtn = document.getElementById('musicToggle');
+        const playIcon = document.getElementById('playIcon');
+        const pauseIcon = document.getElementById('pauseIcon');
+        let isPlaying = false;
+
+        function setPlayingState(playing) {
+            isPlaying = playing;
+            if (playing) {
+                playIcon.style.display = 'none';
+                pauseIcon.style.display = 'block';
+                toggleBtn.classList.add('playing');
+            } else {
+                playIcon.style.display = 'block';
+                pauseIcon.style.display = 'none';
+                toggleBtn.classList.remove('playing');
+            }
+        }
+
+        // Try Auto-play on Load (Volume 40%)
+        window.addEventListener('load', () => {
+            audio.volume = 0.4; // 40% Volume
+            audio.play().then(() => { setPlayingState(true); }).catch(() => {});
+        });
+
+        // The "Catch-All" Trigger: Scroll, Move, Click, or Touch
+        function triggerAudio() {
+            if (!isPlaying) {
+                audio.volume = 0.4; // Ensure volume is set
+                audio.play().then(() => {
+                    setPlayingState(true);
+                    // Once playing, remove these specific listeners to save performance
+                    ['click', 'scroll', 'touchstart', 'mousemove'].forEach(event => 
+                        document.removeEventListener(event, triggerAudio)
+                    );
+                }).catch(e => console.log("Still waiting for interaction"));
+            }
+        }
+
+        // Add listeners for EVERY possible interaction
+        ['click', 'scroll', 'touchstart', 'mousemove'].forEach(event => 
+            document.addEventListener(event, triggerAudio)
+        );
+
+        // Manual Toggle Button
+        toggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); 
+            if (isPlaying) {
+                audio.pause();
+                setPlayingState(false);
+            } else {
+                audio.volume = 0.4;
+                audio.play();
+                setPlayingState(true);
+            }
+        });
+
+        // --- 3. COUNTDOWN ---
+        const weddingDate = new Date("February 14, 2026 19:30:00").getTime();
+        setInterval(() => {
+            const now = new Date().getTime();
+            const dist = weddingDate - now;
+            document.getElementById("days").innerText = Math.floor(dist / (1000 * 60 * 60 * 24)).toString().padStart(2,'0');
+            document.getElementById("hours").innerText = Math.floor((dist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2,'0');
+            document.getElementById("minutes").innerText = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2,'0');
+            document.getElementById("seconds").innerText = Math.floor((dist % (1000 * 60)) / 1000).toString().padStart(2,'0');
+        }, 1000);
+
+        // --- 4. CELEBRATE ACTION ---
+        const celebrateBtn = document.getElementById('celebrateBtn');
+        const photoSection = document.getElementById('photoArea');
+
+        celebrateBtn.addEventListener('click', () => {
+            // Ensure Music Plays
+            if (!isPlaying) {
+                audio.volume = 0.4;
+                audio.play();
+                setPlayingState(true);
+            }
+
+            // Confetti
+            confetti({
+                particleCount: 150,
+                spread: 100,
+                origin: { y: 0.6 },
+                colors: ['#D4AF37', '#ffffff', '#800000']
+            });
+
+            // Scroll
+            photoSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
+            celebrateBtn.innerHTML = "Counting Down With You";
+        });
+    </script>
+</body>
+</html>
