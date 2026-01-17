@@ -28,9 +28,7 @@
             font-family: 'Lato', sans-serif;
             color: var(--white);
             
-            /* New Background: A rich, dark vertical texture suitable for mobile.
-               To use your own file, change the URL below to 'image2.jpg' 
-            */
+            /* Background setup */
             background: linear-gradient(rgba(20, 0, 0, 0.6), rgba(20, 0, 0, 0.8)), url('image2.jpg');
             
             background-size: cover;
@@ -44,19 +42,17 @@
         #petal-container {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; /* Allows scrolling through petals */
+            pointer-events: none;
             z-index: 1;
             overflow: hidden;
         }
 
         .petal {
             position: absolute;
-            /* URL to a real Rose Petal PNG (Transparent) */
             background-image: url('https://pngimg.com/uploads/rose/rose_PNG686.png');
             background-size: contain;
             background-repeat: no-repeat;
             opacity: 0.9;
-            /* Note: Width/Height set in JS for variety */
             animation: falling linear infinite;
         }
 
@@ -89,18 +85,42 @@
             font-size: 0.85rem;
             letter-spacing: 5px;
             color: var(--gold);
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             text-transform: uppercase;
-            margin-top: 10vh;
+            margin-top: 8vh;
         }
 
+        /* --- UPDATED NAMES SECTION FOR MOBILE RESPONSIVENESS & CENTERING --- */
         .names {
             font-family: 'Great Vibes', cursive;
-            font-size: clamp(3.5rem, 12vw, 5.5rem);
+            /* Responsive font size */
+            font-size: clamp(3rem, 10vw, 5.5rem); 
             color: var(--gold-shine);
             line-height: 1.1;
             margin-bottom: 25px;
             text-shadow: 0 4px 15px rgba(0,0,0,0.6);
+            
+            /* Flexbox to handle the '&' position */
+            display: flex;
+            flex-direction: column; /* Stack vertically on mobile */
+            align-items: center;
+            justify-content: center;
+            gap: 5px; 
+        }
+
+        /* Styling the & symbol specifically */
+        .names .amp {
+            font-size: 0.8em; /* Slightly smaller for elegance */
+            color: var(--gold);
+            margin: 0 10px;
+        }
+
+        /* On larger screens (Tablets/PC), put them in a row */
+        @media (min-width: 768px) {
+            .names {
+                flex-direction: row; 
+                gap: 15px;
+            }
         }
 
         .date-location {
@@ -114,6 +134,8 @@
             margin-bottom: 40px;
             background: var(--glass);
             backdrop-filter: blur(4px);
+            /* Prevent text wrapping awkwardly on small screens */
+            white-space: nowrap; 
         }
 
         /* --- 4. COUNTDOWN --- */
@@ -122,6 +144,23 @@
             grid-template-columns: repeat(4, 1fr);
             gap: 12px;
             margin-bottom: 50px;
+            width: 100%;
+        }
+
+        /* Mobile tweaks for countdown */
+        @media (max-width: 400px) {
+            .countdown {
+                gap: 6px; /* Smaller gap on tiny screens */
+            }
+            .time-box {
+                border-radius: 6px;
+            }
+            .time-content h2 {
+                font-size: 1.2rem !important;
+            }
+            .time-content p {
+                font-size: 0.5rem !important;
+            }
         }
 
         .time-box {
@@ -303,7 +342,11 @@
         <div class="content">
             <p class="pre-title">We Are Getting Married</p>
             
-            <h1 class="names">Nirupam & Pinki</h1>
+            <h1 class="names">
+                <span>Nirupam</span>
+                <span class="amp">&</span>
+                <span>Pinki</span>
+            </h1>
             
             <div class="date-location">
                 February 14, 2026 • Fulbari, Katigorah
