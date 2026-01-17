@@ -69,6 +69,9 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            /* Added min-height to ensure vertical centering if needed */
+            min-height: 100vh; 
+            justify-content: center; /* Vertically centers the content block */
             padding: 40px 20px;
             z-index: 5;
         }
@@ -77,24 +80,25 @@
             text-align: center;
             width: 100%;
             max-width: 600px;
-            margin-bottom: 50px; 
+            margin-bottom: 20px; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .pre-title {
             font-family: 'Cinzel', serif;
-            font-size: 0.85rem;
+            font-size: 1rem; /* Made slightly bigger */
             letter-spacing: 5px;
             color: var(--gold);
             margin-bottom: 20px;
             text-transform: uppercase;
-            margin-top: 8vh;
         }
 
-        /* --- UPDATED NAMES SECTION FOR MOBILE RESPONSIVENESS & CENTERING --- */
+        /* --- NAMES SECTION --- */
         .names {
             font-family: 'Great Vibes', cursive;
-            /* Responsive font size */
-            font-size: clamp(3rem, 10vw, 5.5rem); 
+            font-size: clamp(3.5rem, 12vw, 6rem); /* Made responsive but BIG */
             color: var(--gold-shine);
             line-height: 1.1;
             margin-bottom: 25px;
@@ -106,16 +110,15 @@
             align-items: center;
             justify-content: center;
             gap: 5px; 
+            width: 100%;
         }
 
-        /* Styling the & symbol specifically */
         .names .amp {
-            font-size: 0.8em; /* Slightly smaller for elegance */
+            font-size: 0.8em; 
             color: var(--gold);
             margin: 0 10px;
         }
 
-        /* On larger screens (Tablets/PC), put them in a row */
         @media (min-width: 768px) {
             .names {
                 flex-direction: row; 
@@ -123,44 +126,47 @@
             }
         }
 
+        /* --- UPDATED: BIG DATE & LOCATION --- */
         .date-location {
             font-family: 'Cinzel', serif;
-            font-size: 1rem;
+            
+            /* UPDATED: Much bigger font size */
+            font-size: clamp(1.3rem, 5vw, 2.2rem); 
+            font-weight: 700; /* Bold */
+            
             color: var(--white);
-            border-top: 1px solid var(--gold);
-            border-bottom: 1px solid var(--gold);
-            padding: 12px 25px;
-            display: inline-block;
-            margin-bottom: 40px;
+            border-top: 2px solid var(--gold); /* Slightly thicker border */
+            border-bottom: 2px solid var(--gold);
+            
+            padding: 20px 30px; /* More padding */
+            margin-bottom: 50px;
+            
             background: var(--glass);
             backdrop-filter: blur(4px);
-            /* Prevent text wrapping awkwardly on small screens */
-            white-space: nowrap; 
+            
+            display: inline-block;
+            text-align: center;
+            line-height: 1.5;
+            
+            /* Allow wrapping on small screens so it stays centered */
+            white-space: normal; 
         }
 
         /* --- 4. COUNTDOWN --- */
         .countdown {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            margin-bottom: 50px;
+            gap: 15px;
+            margin-bottom: 60px;
             width: 100%;
+            max-width: 500px; /* Keep it contained */
         }
 
-        /* Mobile tweaks for countdown */
         @media (max-width: 400px) {
-            .countdown {
-                gap: 6px; /* Smaller gap on tiny screens */
-            }
-            .time-box {
-                border-radius: 6px;
-            }
-            .time-content h2 {
-                font-size: 1.2rem !important;
-            }
-            .time-content p {
-                font-size: 0.5rem !important;
-            }
+            .countdown { gap: 8px; }
+            .time-box { border-radius: 6px; }
+            .time-content h2 { font-size: 1.3rem !important; }
+            .time-content p { font-size: 0.6rem !important; }
         }
 
         .time-box {
@@ -192,18 +198,18 @@
         .time-content {
             position: relative;
             z-index: 1; 
-            padding: 10px 5px;
+            padding: 15px 5px; /* Slightly more padding */
         }
 
         .time-content h2 {
             font-family: 'Cinzel', serif;
-            font-size: 1.5rem;
+            font-size: 1.8rem; /* Bigger countdown numbers */
             color: var(--gold);
             margin: 0;
         }
 
         .time-content p {
-            font-size: 0.6rem;
+            font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: rgba(255,255,255,0.7);
@@ -248,10 +254,10 @@
             background: linear-gradient(135deg, #D4AF37 0%, #FDC830 100%);
             color: #2b0505;
             border: none;
-            padding: 16px 45px;
+            padding: 18px 50px; /* Bigger button */
             font-family: 'Cinzel', serif;
             font-weight: 700;
-            font-size: 0.95rem;
+            font-size: 1.1rem;
             letter-spacing: 1px;
             border-radius: 50px;
             cursor: pointer;
@@ -295,7 +301,7 @@
             border: 1px solid var(--gold);
             color: var(--gold);
             padding: 12px 20px;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             text-decoration: none;
             text-transform: uppercase;
             letter-spacing: 1px;
