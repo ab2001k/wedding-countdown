@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Wedding Websites | By Abhik Dutta</title>
     
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💍</text></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2240%22 stroke=%22gold%22 stroke-width=%2210%22 fill=%22none%22/></svg>">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,8 +23,9 @@
             --font-title: 'Great Vibes', cursive;
             --font-head: 'Cinzel', serif;
             --font-body: 'Lato', sans-serif;
-            --bg-overlay: rgba(20, 0, 0, 0.7);
-            background-image: linear-gradient(var(--bg-overlay), var(--bg-overlay)), url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1920&q=80');
+            --bg-overlay: rgba(20, 10, 10, 0.75);
+            /* New Royal Background */
+            background-image: linear-gradient(var(--bg-overlay), var(--bg-overlay)), url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1920&q=80');
         }
 
         body.theme-elegant {
@@ -72,10 +73,10 @@
             background: rgba(0, 0, 0, 0.7);
             border: 1px solid var(--primary);
             color: var(--primary-shine);
-            padding: 8px 15px;
+            padding: 10px 18px;
             border-radius: 50px;
             font-family: var(--font-body);
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             z-index: 1000;
             backdrop-filter: blur(5px);
             text-decoration: none;
@@ -83,15 +84,17 @@
             align-items: center;
             gap: 8px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease;
         }
+        .creator-badge:hover { transform: scale(1.05); }
         .creator-badge span { font-weight: bold; color: var(--primary); }
 
-        /* --- ROSE PETALS (Only for Royal Theme) --- */
+        /* --- ROSE PETALS --- */
         #petal-container {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 1; overflow: hidden;
-            display: none; /* Toggled in JS */
+            display: none; 
         }
         .petal {
             position: absolute;
@@ -172,10 +175,12 @@
         .music-control {
             position: fixed; top: 20px; right: 20px; z-index: 100;
             background: rgba(0,0,0,0.6); border: 1px solid var(--primary);
-            width: 40px; height: 40px; border-radius: 50%; display: flex;
+            width: 44px; height: 44px; border-radius: 50%; display: flex;
             justify-content: center; align-items: center; cursor: pointer;
+            transition: transform 0.3s ease;
         }
-        .music-control svg { fill: var(--primary); width: 18px; height: 18px; }
+        .music-control:hover { transform: scale(1.05); }
+        .music-control svg { fill: var(--primary); width: 20px; height: 20px; }
         .music-control.playing svg { animation: spin 3s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
@@ -186,6 +191,7 @@
             letter-spacing: 1px; border-radius: 50px; cursor: pointer;
             transition: all 0.3s; position: relative; z-index: 10;
             backdrop-filter: blur(5px);
+            text-transform: uppercase;
         }
         .celebrate-btn:hover { background: var(--primary); color: #000; }
         .celebrate-btn:active { transform: scale(0.96); }
@@ -199,27 +205,36 @@
         .frame img { width: 100%; display: block; border: 1px solid #eee; object-fit: cover; height: 250px;}
         .frame-text { text-align:center; font-family: var(--font-title); font-size:1.8rem; margin-top:10px; color:#333;}
 
-        /* --- SHOWCASE DEMO NAVIGATION --- */
+        /* --- SHOWCASE DEMO NAVIGATION (MOBILE/PC OPTIMIZED) --- */
         .demo-nav {
             position: fixed; bottom: 0; left: 0; width: 100%;
-            background: rgba(0, 0, 0, 0.9); border-top: 1px solid var(--primary);
+            background: rgba(10, 10, 10, 0.95); border-top: 1px solid var(--primary);
             display: flex; justify-content: space-between; align-items: center;
-            padding: 15px 20px; z-index: 1000; font-family: 'Lato', sans-serif;
+            padding: 15px 5%; z-index: 1000; font-family: 'Lato', sans-serif;
+            backdrop-filter: blur(10px);
         }
         .nav-btn {
             background: var(--primary); color: #000; border: none;
-            padding: 8px 15px; border-radius: 5px; font-weight: bold;
-            cursor: pointer; transition: 0.3s; font-size: 0.9rem;
+            padding: 12px 20px; border-radius: 5px; font-weight: bold;
+            cursor: pointer; transition: 0.3s; font-size: 0.85rem;
+            text-transform: uppercase; letter-spacing: 1px;
         }
-        .nav-btn:hover { opacity: 0.8; }
-        .demo-indicator { color: white; font-size: 0.9rem; letter-spacing: 1px; }
+        .nav-btn:hover { opacity: 0.8; transform: translateY(-2px); }
+        .nav-btn:active { transform: translateY(0); }
+        .demo-indicator { color: white; font-size: 0.95rem; letter-spacing: 1px; font-weight: bold; text-align: center; }
+
+        @media (max-width: 600px) {
+            .demo-nav { padding: 12px 15px; }
+            .nav-btn { padding: 10px 12px; font-size: 0.75rem; }
+            .demo-indicator { font-size: 0.85rem; }
+        }
 
     </style>
 </head>
 <body class="theme-royal" id="bodyElement">
 
-    <a href="https://ab2001k.github.io/wish" target="_blank" class="creator-badge">
-        👨‍💻 Design by <span>Abhik Dutta</span>
+    <a href="https://ab2001k.github.io/visit/" target="_blank" class="creator-badge">
+        Design by <span>Abhik Dutta</span>
     </a>
 
     <div id="petal-container"></div>
@@ -234,13 +249,13 @@
             <p class="pre-title">We Are Getting Married</p>
             
             <h1 class="names" id="coupleNames">
-                <span>Nirupam</span>
+                <span>Rohan</span>
                 <span class="amp">&</span>
-                <span>Pinki</span>
+                <span>Priya</span>
             </h1>
             
             <div class="date-location" id="dateLocation">
-                Demo Date • Fulbari, Katigorah
+                Demo Date • The Royal Heritage
             </div>
 
             <div class="countdown">
@@ -254,7 +269,7 @@
 
             <div class="photo-section" id="photoArea">
                 <div class="frame">
-                    <img id="couplePhoto" src="https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=400&q=80" alt="Couple">
+                    <img id="couplePhoto" src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=400&q=80" alt="Couple">
                     <div class="frame-text">Save the Date</div>
                 </div>
             </div>
@@ -262,9 +277,9 @@
     </div>
 
     <div class="demo-nav">
-        <button class="nav-btn" onclick="changeDemo(-1)">⬅️ Prev Demo</button>
+        <button class="nav-btn" onclick="changeDemo(-1)">Prev Demo</button>
         <div class="demo-indicator" id="demoIndicator">Theme 1: Royal</div>
-        <button class="nav-btn" onclick="changeDemo(1)">Next Demo ➡️</button>
+        <button class="nav-btn" onclick="changeDemo(1)">Next Demo</button>
     </div>
 
     <script>
@@ -272,24 +287,24 @@
         const demos = [
             {
                 themeClass: 'theme-royal',
-                namesHtml: '<span>Nirupam</span> <span class="amp">&</span> <span>Pinki</span>',
-                location: 'The Royal Palace • Assam',
-                photo: 'https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=600&q=80',
+                namesHtml: '<span>Rohan</span> <span class="amp">&</span> <span>Priya</span>',
+                location: 'The Royal Heritage • Jaipur',
+                photo: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=600&q=80',
                 indicator: 'Theme 1: Royal',
                 showPetals: true
             },
             {
                 themeClass: 'theme-elegant',
                 namesHtml: '<span>Alex</span> <span class="amp">&</span> <span>Taylor</span>',
-                location: 'Oceanview Beach Resort • Goa',
+                location: 'Oceanview Resort • Goa',
                 photo: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=600&q=80',
                 indicator: 'Theme 2: Elegant',
                 showPetals: false
             },
             {
                 themeClass: 'theme-rustic',
-                namesHtml: '<span>Emma</span> <span class="amp">&</span> <span>Liam</span>',
-                location: 'Whispering Pines Barn • Shillong',
+                namesHtml: '<span>Kabir</span> <span class="amp">&</span> <span>Zara</span>',
+                location: 'Whispering Pines • Shillong',
                 photo: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=600&q=80',
                 indicator: 'Theme 3: Rustic',
                 showPetals: false
@@ -300,18 +315,15 @@
 
         // --- EVERGREEN RANDOM COUNTDOWN LOGIC ---
         let targetDate = new Date();
-        // Set date to a random day between 15 and 45 days from today
         function resetTargetDate() {
             targetDate = new Date();
             const randomDaysAdd = Math.floor(Math.random() * 30) + 15;
             targetDate.setDate(targetDate.getDate() + randomDaysAdd);
-            targetDate.setHours(19, 30, 0); // 7:30 PM
+            targetDate.setHours(19, 30, 0); 
         }
         
-        // Initialize the first random date
         resetTargetDate();
 
-        // Format Date for Display (e.g., "October 14, 2026")
         function getFormattedDate(dateObj) {
             const options = { month: 'long', day: 'numeric', year: 'numeric' };
             return dateObj.toLocaleDateString('en-US', options);
@@ -325,17 +337,14 @@
             document.getElementById('couplePhoto').src = demo.photo;
             document.getElementById('demoIndicator').innerText = demo.indicator;
             
-            // Toggle Petals
             document.getElementById('petal-container').style.display = demo.showPetals ? 'block' : 'none';
         }
 
-        // Handle Next/Prev Buttons
         window.changeDemo = function(direction) {
             currentDemo += direction;
             if (currentDemo >= demos.length) currentDemo = 0;
             if (currentDemo < 0) currentDemo = demos.length - 1;
             
-            // Reset to top smoothly
             window.scrollTo({ top: 0, behavior: 'smooth' });
             updateUI();
         };
@@ -345,10 +354,9 @@
             const now = new Date().getTime();
             let dist = targetDate.getTime() - now;
 
-            // If countdown finishes, reset to a new random future date so the demo never dies
             if (dist < 0) {
                 resetTargetDate();
-                updateUI(); // Update the text on screen with new date
+                updateUI(); 
                 dist = targetDate.getTime() - now;
             }
 
@@ -381,7 +389,6 @@
             document.getElementById('photoArea').scrollIntoView({ behavior: 'smooth', block: 'center' });
         });
 
-        // Initialize first run
         updateUI();
     </script>
 </body>
